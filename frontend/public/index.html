@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A股量化交易系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .main-content {
+            padding: 30px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 16px;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            color: #667eea;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .result h4 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .metric-details {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .metric-details p {
+            margin: 8px 0;
+            color: #333;
+        }
+        
+        .charts-container {
+            margin-top: 30px;
+        }
+        
+        .chart-wrapper {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .chart-wrapper h4 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .chart-wrapper canvas {
+            max-height: 400px;
+        }
+
+        .metric {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .metric-value.positive {
+            color: #10b981;
+        }
+
+        .metric-value.negative {
+            color: #ef4444;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .success {
+            background: #efe;
+            color: #3c3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .ai-advice {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>A股量化交易系统</h1>
+            <p>智能策略回测 | AI投资建议 | 数据驱动决策</p>
+        </div>
+
+        <div class="main-content">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('backtest')">策略回测</button>
+                <button class="tab" onclick="switchTab('ai')">AI投资建议</button>
+                <button class="tab" onclick="switchTab('settings')">设置</button>
+            </div>
+
+            <!-- 回测标签页 -->
+            <div id="backtest" class="tab-content active">
+                <div class="card">
+                    <h3>配置回测参数</h3>
+                    <form id="backtestForm">
+                        <div class="row">
+                            <div class="form-group">
+                                <label>股票代码</label>
+                                <input type="text" id="symbol" placeholder="例如: 000001.SZ 或 600000.SH" required>
+                            </div>
+                            <div class="form-group">
+                                <label>策略类型</label>
+                                <select id="strategyType">
+                                    <option value="ma">双均线策略</option>
+                                    <option value="rsi">RSI策略</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label>开始日期</label>
+                                <input type="text" id="startDate" placeholder="20200101" required>
+                            </div>
+                            <div class="form-group">
+                                <label>结束日期</label>
+                                <input type="text" id="endDate" placeholder="20231231" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label>初始资金</label>
+                                <input type="number" id="initialCapital" value="100000" required>
+                            </div>
+                            <div class="form-group">
+                                <label>手续费率</label>
+                                <input type="number" id="commissionRate" value="0.0003" step="0.0001" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn">开始回测</button>
+                    </form>
+                </div>
+
+                <div id="backtestResult" style="display: none;">
+                    <div class="result">
+                        <h4>回测结果</h4>
+                        <div class="metrics" id="metricsContainer"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI建议标签页 -->
+            <div id="ai" class="tab-content">
+                <div class="card">
+                    <h3>获取AI投资建议</h3>
+                    <form id="aiForm">
+                        <div class="form-group">
+                            <label>股票代码</label>
+                            <input type="text" id="aiSymbol" placeholder="例如: 000001" required>
+                            <small style="color: #666; display: block; margin-top: 5px;">
+                                推荐代码（已缓存，响应快速）：000001（平安银行）、600000（浦发银行）、000002（万科A）、600519（贵州茅台）、000858（五粮液）
+                            </small>
+                        </div>
+                        <button type="submit" class="btn">获取AI建议</button>
+                    </form>
+                </div>
+
+                <div id="aiResult" style="display: none;">
+                    <div class="result">
+                        <h4>AI投资建议</h4>
+                        <div class="ai-advice" id="aiAdvice"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 设置标签页 -->
+            <div id="settings" class="tab-content">
+                <div class="card">
+                    <h3>API配置</h3>
+                    <div class="form-group">
+                        <label>DeepSeek API密钥</label>
+                        <input type="password" id="deepseekKey" placeholder="输入您的DeepSeek API密钥">
+                        <button onclick="saveApiKey()" class="btn" style="margin-top: 10px;">保存</button>
+                    </div>
+                    <div id="settingsMessage"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000/api';
+
+        function switchTab(tabName) {
+            // 更新标签按钮
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // 更新内容
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // 回测表单提交
+        document.getElementById('backtestForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const symbol = document.getElementById('symbol').value;
+            const strategyType = document.getElementById('strategyType').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const initialCapital = parseFloat(document.getElementById('initialCapital').value);
+            const commissionRate = parseFloat(document.getElementById('commissionRate').value);
+
+            // 显示加载状态
+            const resultDiv = document.getElementById('backtestResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<div class="loading">正在回测中，请稍候...</div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/backtest?symbol=${symbol}&start_date=${startDate}&end_date=${endDate}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: strategyType === 'ma' ? '双均线策略' : 'RSI策略',
+                        strategy_type: strategyType,
+                        params: {},
+                        initial_capital: initialCapital,
+                        commission_rate: commissionRate
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('回测失败:', errorData);
+                    throw new Error(`回测请求失败: ${errorData.detail || JSON.stringify(errorData)}`);
+                }
+
+                const result = await response.json();
+                displayBacktestResult(result);
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">错误: ${error.message}</div>`;
+            }
+        });
+
+        function displayBacktestResult(result) {
+            const resultDiv = document.getElementById('backtestResult');
+            
+            const metricsHtml = `
+                <h3>回测结果</h3>
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <div class="metric-label">总收益率</div>
+                        <div class="metric-value ${result.total_return >= 0 ? 'positive' : 'negative'}">
+                            ${(result.total_return * 100).toFixed(2)}%
+                        </div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">年化收益率</div>
+                        <div class="metric-value ${result.annual_return >= 0 ? 'positive' : 'negative'}">
+                            ${(result.annual_return * 100).toFixed(2)}%
+                        </div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">最大回撤</div>
+                        <div class="metric-value negative">
+                            ${(result.max_drawdown * 100).toFixed(2)}%
+                        </div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">夏普比率</div>
+                        <div class="metric-value">
+                            ${result.sharpe_ratio.toFixed(2)}
+                        </div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">胜率</div>
+                        <div class="metric-value">
+                            ${(result.win_rate * 100).toFixed(2)}%
+                        </div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">交易次数</div>
+                        <div class="metric-value">
+                            ${result.total_trades}
+                        </div>
+                    </div>
+                </div>
+                <div class="metric-details">
+                    <p><strong>策略名称：</strong>${result.strategy_name}</p>
+                    <p><strong>回测期间：</strong>${result.start_date} 至 ${result.end_date}</p>
+                    <p><strong>初始资金：</strong>¥${result.initial_capital.toLocaleString()}</p>
+                    <p><strong>最终资金：</strong>¥${result.final_capital.toLocaleString()}</p>
+                </div>
+                
+                <div class="charts-container">
+                    <div class="chart-wrapper">
+                        <h4>股价走势与交易点位</h4>
+                        <canvas id="priceChart"></canvas>
+                    </div>
+                    <div class="chart-wrapper">
+                        <h4>资金曲线</h4>
+                        <canvas id="equityChart"></canvas>
+                    </div>
+                </div>
+            `;
+
+            resultDiv.innerHTML = metricsHtml;
+            resultDiv.style.display = 'block';
+            
+            // 绘制图表
+            setTimeout(() => {
+                drawPriceChart(result);
+                drawEquityChart(result);
+            }, 100);
+        }
+        
+        function drawPriceChart(result) {
+            const canvas = document.getElementById('priceChart');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            
+            // 准备价格数据
+            const dates = result.price_data.map(d => d.trade_date.substring(0, 10));
+            const prices = result.price_data.map(d => d.close);
+            
+            // 准备买卖点数据
+            const buyPoints = [];
+            const sellPoints = [];
+            
+            result.trades.forEach(trade => {
+                const tradeDate = trade.timestamp.substring(0, 10);
+                const dateIndex = dates.indexOf(tradeDate);
+                if (dateIndex !== -1) {
+                    if (trade.action === 'buy') {
+                        buyPoints.push({x: dateIndex, y: trade.price});
+                    } else if (trade.action === 'sell') {
+                        sellPoints.push({x: dateIndex, y: trade.price});
+                    }
+                }
+            });
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [
+                        {
+                            label: '收盘价',
+                            data: prices,
+                            borderColor: '#667eea',
+                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            fill: true
+                        },
+                        {
+                            label: '买入',
+                            data: buyPoints,
+                            type: 'scatter',
+                            backgroundColor: '#10b981',
+                            borderColor: '#10b981',
+                            pointRadius: 8,
+                            pointStyle: 'triangle',
+                            showLine: false
+                        },
+                        {
+                            label: '卖出',
+                            data: sellPoints,
+                            type: 'scatter',
+                            backgroundColor: '#ef4444',
+                            borderColor: '#ef4444',
+                            pointRadius: 8,
+                            pointStyle: 'triangle',
+                            rotation: 180,
+                            showLine: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: true,
+                            ticks: {
+                                maxTicksLimit: 10
+                            }
+                        },
+                        y: {
+                            display: true,
+                            position: 'left'
+                        }
+                    }
+                }
+            });
+        }
+        
+        function drawEquityChart(result) {
+            const canvas = document.getElementById('equityChart');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            
+            // 构建资金曲线数据
+            const dates = [];
+            const equity = [];
+            let currentEquity = result.initial_capital;
+            
+            dates.push(result.start_date);
+            equity.push(currentEquity);
+            
+            // 按交易更新资金
+            result.trades.forEach(trade => {
+                dates.push(trade.timestamp.substring(0, 10));
+                equity.push(trade.portfolio_value);
+            });
+            
+            // 最后一个点是最终资金
+            if (dates[dates.length - 1] !== result.end_date) {
+                dates.push(result.end_date);
+                equity.push(result.final_capital);
+            }
+            
+            // 计算收益率
+            const returns = equity.map(val => ((val - result.initial_capital) / result.initial_capital * 100));
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [
+                        {
+                            label: '资金 (¥)',
+                            data: equity,
+                            borderColor: '#667eea',
+                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            fill: true,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: '收益率 (%)',
+                            data: returns,
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            fill: true,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: true,
+                            ticks: {
+                                maxTicksLimit: 10
+                            }
+                        },
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: '资金 (¥)'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: '收益率 (%)'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // AI建议表单提交
+        document.getElementById('aiForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const symbol = document.getElementById('aiSymbol').value;
+
+            const resultDiv = document.getElementById('aiResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<div class="loading">AI正在分析中，请稍候...</div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/ai/analyze`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        symbol: symbol,
+                        analysis_type: 'stock',
+                        context: null
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'AI分析请求失败');
+                }
+
+                const result = await response.json();
+                
+                // 重新构建结果显示区域
+                resultDiv.innerHTML = `
+                    <div class="result">
+                        <h4>AI投资建议</h4>
+                        <div class="ai-advice" id="aiAdvice">${result.advice}</div>
+                    </div>
+                `;
+                resultDiv.style.display = 'block';
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">错误: ${error.message}</div>`;
+            }
+        });
+
+        // 保存API密钥
+        async function saveApiKey() {
+            const apiKey = document.getElementById('deepseekKey').value;
+            const messageDiv = document.getElementById('settingsMessage');
+
+            if (!apiKey) {
+                messageDiv.innerHTML = '<div class="error">请输入API密钥</div>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/ai/set-key?api_key=${encodeURIComponent(apiKey)}`, {
+                    method: 'POST'
+                });
+
+                if (!response.ok) {
+                    throw new Error('保存失败');
+                }
+
+                messageDiv.innerHTML = '<div class="success">API密钥保存成功！</div>';
+                setTimeout(() => {
+                    messageDiv.innerHTML = '';
+                }, 3000);
+            } catch (error) {
+                messageDiv.innerHTML = `<div class="error">错误: ${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>
