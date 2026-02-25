@@ -98,6 +98,10 @@ class BacktestEngine:
         """执行交易"""
         price = bar['close'] * (1 + self.slippage if signal == Signal.BUY else 1 - self.slippage)
         
+        # 更新策略的现金和持仓信息（重要：让策略能看到实际持仓）
+        self.strategy.cash = self.cash
+        self.strategy.positions = self.positions
+        
         # 计算交易数量
         shares = self.strategy.calculate_position_size(symbol, signal, price)
         
