@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A股量化交易系统</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -13,68 +14,91 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(180deg, #f5f5f7 0%, #e8e8ed 100%);
             min-height: 100vh;
             padding: 20px;
+            color: #1d1d1f;
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
             overflow: hidden;
+            backdrop-filter: blur(20px);
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
             color: white;
-            padding: 30px;
+            padding: 40px 30px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
         }
 
         .header h1 {
-            font-size: 2.5em;
+            font-size: 2.8em;
+            font-weight: 600;
             margin-bottom: 10px;
+            letter-spacing: -0.5px;
+            position: relative;
         }
 
         .header p {
-            opacity: 0.9;
+            opacity: 0.95;
             font-size: 1.1em;
+            font-weight: 400;
+            position: relative;
         }
 
         .main-content {
-            padding: 30px;
+            padding: 40px 30px;
         }
 
         .tabs {
             display: flex;
-            gap: 10px;
-            border-bottom: 2px solid #e0e0e0;
+            gap: 0;
+            background: #f5f5f7;
+            border-radius: 12px;
+            padding: 4px;
             margin-bottom: 30px;
         }
 
         .tab {
-            padding: 12px 24px;
+            flex: 1;
+            padding: 12px 20px;
             cursor: pointer;
-            background: none;
+            background: transparent;
             border: none;
-            font-size: 16px;
-            color: #666;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
+            font-size: 15px;
+            font-weight: 500;
+            color: #86868b;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .tab:hover {
-            color: #667eea;
+            color: #1d1d1f;
         }
 
         .tab.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
-            font-weight: 600;
+            background: white;
+            color: #007aff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         .tab-content {
@@ -83,24 +107,29 @@
 
         .tab-content.active {
             display: block;
-            animation: fadeIn 0.3s;
+            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .card {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 12px;
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
             margin-bottom: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
         }
 
         .card h3 {
-            margin-bottom: 15px;
-            color: #333;
+            margin-bottom: 20px;
+            color: #1d1d1f;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
         }
 
         .form-group {
@@ -110,99 +139,113 @@
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            color: #555;
+            color: #1d1d1f;
             font-weight: 500;
+            font-size: 14px;
         }
 
         .form-group input, .form-group select, .form-group textarea {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s;
+            padding: 12px 16px;
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #fafafa;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
         }
 
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #007aff;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
         }
 
         .btn {
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 14px 32px;
+            background: #007aff;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 16px;
+            font-weight: 500;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            background: #0051d5;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(0, 122, 255, 0.3);
         }
 
         .btn:active {
-            transform: translateY(0);
+            transform: scale(0.98);
         }
 
         .result {
             background: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 20px;
-            border: 2px solid #e0e0e0;
+            padding: 24px;
+            border-radius: 16px;
+            margin-top: 24px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
         }
 
         .result h4 {
-            margin-bottom: 15px;
-            color: #333;
+            margin-bottom: 20px;
+            color: #1d1d1f;
+            font-size: 20px;
+            font-weight: 600;
         }
 
         .metrics {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
+            gap: 16px;
+            margin-top: 20px;
         }
         
         .metrics-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
+            gap: 16px;
+            margin-top: 20px;
         }
         
         .metric-details {
-            margin-top: 20px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
+            margin-top: 24px;
+            padding: 20px;
+            background: #f5f5f7;
+            border-radius: 12px;
         }
         
         .metric-details p {
-            margin: 8px 0;
-            color: #333;
+            margin: 10px 0;
+            color: #1d1d1f;
+            font-size: 15px;
+            line-height: 1.6;
         }
         
         .charts-container {
-            margin-top: 30px;
+            margin-top: 32px;
         }
         
         .chart-wrapper {
             background: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border: 2px solid #e0e0e0;
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
         }
         
         .chart-wrapper h4 {
-            margin-bottom: 15px;
-            color: #333;
-            font-size: 16px;
+            margin-bottom: 20px;
+            color: #1d1d1f;
+            font-size: 18px;
+            font-weight: 600;
         }
         
         .chart-wrapper canvas {
@@ -210,52 +253,126 @@
         }
 
         .metric {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
+            background: #f5f5f7;
+            padding: 20px;
+            border-radius: 12px;
             text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .metric:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
         }
 
         .metric-label {
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 5px;
+            font-size: 13px;
+            color: #86868b;
+            margin-bottom: 8px;
+            font-weight: 500;
         }
 
         .metric-value {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 600;
-            color: #333;
+            color: #1d1d1f;
+            letter-spacing: -0.5px;
         }
 
         .metric-value.positive {
-            color: #10b981;
+            color: #34c759;
         }
 
         .metric-value.negative {
-            color: #ef4444;
+            color: #ff3b30;
         }
 
         .loading {
             text-align: center;
-            padding: 40px;
-            color: #666;
+            padding: 60px 40px;
+            color: #86868b;
+            font-size: 15px;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
         }
 
         .error {
-            background: #fee;
-            color: #c33;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
+            background: #fff5f5;
+            color: #ff3b30;
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-top: 16px;
+            border: 1px solid rgba(255, 59, 48, 0.2);
+            font-size: 14px;
         }
 
         .success {
-            background: #efe;
-            color: #3c3;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
+            background: #f0fdf4;
+            color: #34c759;
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-top: 16px;
+            border: 1px solid rgba(52, 199, 89, 0.2);
+            font-size: 14px;
+        }
+        
+        .ai-advice {
+            line-height: 1.8;
+            color: #1d1d1f;
+            font-size: 15px;
+        }
+        
+        .ai-advice h1,
+        .ai-advice h2,
+        .ai-advice h3,
+        .ai-advice h4 {
+            margin-top: 24px;
+            margin-bottom: 12px;
+            color: #1d1d1f;
+            font-weight: 600;
+        }
+        
+        .ai-advice h1 { font-size: 24px; }
+        .ai-advice h2 { font-size: 20px; }
+        .ai-advice h3 { font-size: 18px; }
+        .ai-advice h4 { font-size: 16px; }
+        
+        .ai-advice p {
+            margin: 12px 0;
+            line-height: 1.8;
+        }
+        
+        .ai-advice ul,
+        .ai-advice ol {
+            margin: 12px 0;
+            padding-left: 24px;
+        }
+        
+        .ai-advice li {
+            margin: 8px 0;
+            line-height: 1.8;
+        }
+        
+        .ai-advice strong {
+            font-weight: 600;
+            color: #007aff;
+        }
+        
+        .ai-advice code {
+            background: #f5f5f7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'SF Mono', Menlo, Monaco, monospace;
+            font-size: 14px;
         }
 
         .ai-advice {
@@ -736,13 +853,19 @@
 
                 const result = await response.json();
                 
+                // 使用marked.js将Markdown转换为HTML
+                const htmlContent = marked.parse(result.advice);
+                
                 // 重新构建结果显示区域
                 resultDiv.innerHTML = `
                     <div class="result">
                         <h4>AI投资建议</h4>
-                        <div class="ai-advice" id="aiAdvice">${result.advice}</div>
+                        <div class="ai-advice" id="aiAdvice"></div>
                     </div>
                 `;
+                
+                // 将转换后的HTML插入到页面中
+                document.getElementById('aiAdvice').innerHTML = htmlContent;
                 resultDiv.style.display = 'block';
             } catch (error) {
                 resultDiv.innerHTML = `<div class="error">错误: ${error.message}</div>`;
