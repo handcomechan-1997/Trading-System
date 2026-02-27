@@ -184,6 +184,206 @@
             transform: scale(0.98);
         }
 
+        .btn-secondary {
+            padding: 10px 20px;
+            background: #f5f5f7;
+            color: #007aff;
+            border: 1px solid #d1d1d6;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-secondary:hover {
+            background: #e8e8ed;
+            border-color: #007aff;
+        }
+
+        .rule-card {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            border: 2px solid #e5e5ea;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .rule-card:hover {
+            border-color: #007aff;
+            box-shadow: 0 4px 16px rgba(0, 122, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .rule-card.buy-rule {
+            border-left: 4px solid #34c759;
+        }
+
+        .rule-card.sell-rule {
+            border-left: 4px solid #ff3b30;
+        }
+
+        .template-card {
+            background: linear-gradient(135deg, #f5f5f7 0%, #ffffff 100%);
+            padding: 20px;
+            border-radius: 16px;
+            border: 2px solid #e5e5ea;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .template-card:hover {
+            border-color: #007aff;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 122, 255, 0.15);
+        }
+
+        .template-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .template-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 8px;
+        }
+
+        .template-desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .template-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, #007aff, #5856d6);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .rule-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .rule-type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            background: #f5f5f7;
+            color: #007aff;
+        }
+
+        .rule-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .rule-delete {
+            background: #ff3b30;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .rule-delete:hover {
+            background: #d62e22;
+        }
+
+        .condition-row {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 16px;
+            background: #f9f9fb;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        .condition-flow {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .flow-box {
+            padding: 12px 16px;
+            background: white;
+            border: 2px solid #e5e5ea;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .flow-box:hover {
+            border-color: #007aff;
+            background: rgba(0, 122, 255, 0.05);
+        }
+
+        .flow-arrow {
+            font-size: 20px;
+            color: #007aff;
+            font-weight: bold;
+        }
+
+        .flow-operator {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #007aff, #5856d6);
+            color: white;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .indicator-config {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .rules-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 122, 255, 0.02);
+            border-radius: 12px;
+            border: 1px dashed #d1d1d6;
+        }
+
+        .rules-section h4 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .strategy-builder {
+            margin-top: 20px;
+        }
+
         .result {
             background: white;
             padding: 24px;
@@ -407,6 +607,7 @@
         <div class="main-content">
             <div class="tabs">
                 <button class="tab active" onclick="switchTab('backtest')">策略回测</button>
+                <button class="tab" onclick="switchTab('custom')">自定义策略</button>
                 <button class="tab" onclick="switchTab('ai')">AI投资建议</button>
                 <button class="tab" onclick="switchTab('settings')">设置</button>
             </div>
@@ -457,6 +658,116 @@
                     <div class="result">
                         <h4>回测结果</h4>
                         <div class="metrics" id="metricsContainer"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 自定义策略标签页 -->
+            <div id="custom" class="tab-content">
+                <div class="card">
+                    <h3>可视化策略构建器</h3>
+                    <p style="color: #666; margin-bottom: 20px;">通过拖拽和选择的方式创建您自己的交易策略，无需编程基础</p>
+                    
+                    <!-- 策略模板 -->
+                    <div class="strategy-templates" style="margin-bottom: 30px;">
+                        <h4 style="margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 20px;">📋</span> 快速开始：选择策略模板
+                        </h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;">
+                            <div class="template-card" onclick="applyTemplate('ma_cross')">
+                                <div class="template-icon">📊</div>
+                                <div class="template-name">双均线策略</div>
+                                <div class="template-desc">MA5上穿MA20买入，下穿卖出</div>
+                                <div class="template-badge">推荐</div>
+                            </div>
+                            <div class="template-card" onclick="applyTemplate('rsi')">
+                                <div class="template-icon">📈</div>
+                                <div class="template-name">RSI超买超卖</div>
+                                <div class="template-desc">RSI<30买入，RSI>70卖出</div>
+                            </div>
+                            <div class="template-card" onclick="applyTemplate('macd')">
+                                <div class="template-icon">🌊</div>
+                                <div class="template-name">MACD金叉死叉</div>
+                                <div class="template-desc">MACD金叉买入，死叉卖出</div>
+                            </div>
+                            <div class="template-card" onclick="applyTemplate('combined')">
+                                <div class="template-icon">🎯</div>
+                                <div class="template-name">多指标组合</div>
+                                <div class="template-desc">MA多头+RSI适中组合策略</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="strategy-builder">
+                        <div class="form-group">
+                            <label>策略名称</label>
+                            <input type="text" id="customStrategyName" placeholder="给您的策略起个名字" value="我的自定义策略">
+                        </div>
+
+                        <!-- 买入规则 -->
+                        <div class="rules-section">
+                            <h4 style="color: #007aff; margin-bottom: 15px;">买入规则</h4>
+                            <div id="buyRules"></div>
+                            <button type="button" class="btn-secondary" onclick="addRule('buy', 'condition')">+ 添加条件规则</button>
+                            <button type="button" class="btn-secondary" onclick="addRule('buy', 'cross')">+ 添加交叉规则</button>
+                        </div>
+
+                        <!-- 卖出规则 -->
+                        <div class="rules-section" style="margin-top: 30px;">
+                            <h4 style="color: #ff3b30; margin-bottom: 15px;">卖出规则</h4>
+                            <div id="sellRules"></div>
+                            <button type="button" class="btn-secondary" onclick="addRule('sell', 'condition')">+ 添加条件规则</button>
+                            <button type="button" class="btn-secondary" onclick="addRule('sell', 'cross')">+ 添加交叉规则</button>
+                        </div>
+
+                        <!-- 策略参数 -->
+                        <div class="rules-section" style="margin-top: 30px;">
+                            <h4 style="margin-bottom: 15px;">策略参数</h4>
+                            <div class="form-group">
+                                <label>每次投资比例</label>
+                                <input type="number" id="investRatio" value="0.5" min="0.1" max="1.0" step="0.1">
+                                <small style="color: #666;">0.5 表示每次使用50%的可用资金</small>
+                            </div>
+                        </div>
+
+                        <!-- 回测配置 -->
+                        <div class="rules-section" style="margin-top: 30px;">
+                            <h4 style="margin-bottom: 15px;">回测配置</h4>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label>股票代码</label>
+                                    <input type="text" id="customSymbol" placeholder="例如: 000001" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>初始资金</label>
+                                    <input type="number" id="customCapital" value="100000">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label>开始日期</label>
+                                    <input type="text" id="customStartDate" placeholder="20200101" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>结束日期</label>
+                                    <input type="text" id="customEndDate" placeholder="20231231" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 30px; display: flex; gap: 10px;">
+                            <button type="button" class="btn" onclick="validateCustomStrategy()">验证策略</button>
+                            <button type="button" class="btn" onclick="runCustomBacktest()">开始回测</button>
+                            <button type="button" class="btn-secondary" onclick="saveStrategy()">保存策略</button>
+                            <button type="button" class="btn-secondary" onclick="loadStrategy()">加载策略</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="customBacktestResult" style="display: none;">
+                    <div class="result">
+                        <h4>回测结果</h4>
+                        <div id="customMetricsContainer"></div>
                     </div>
                 </div>
             </div>
@@ -651,10 +962,15 @@
                 const tradeDate = trade.timestamp.substring(0, 10);
                 const dateIndex = dates.indexOf(tradeDate);
                 if (dateIndex !== -1) {
+                    const point = {
+                        x: tradeDate,  // 使用日期而不是索引
+                        y: trade.price,
+                        shares: trade.shares
+                    };
                     if (trade.action === 'buy') {
-                        buyPoints.push({x: dateIndex, y: trade.price});
+                        buyPoints.push(point);
                     } else if (trade.action === 'sell') {
-                        sellPoints.push({x: dateIndex, y: trade.price});
+                        sellPoints.push(point);
                     }
                 }
             });
@@ -667,58 +983,111 @@
                         {
                             label: '收盘价',
                             data: prices,
-                            borderColor: '#667eea',
-                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                            borderColor: '#007aff',
+                            backgroundColor: 'rgba(0, 122, 255, 0.05)',
                             borderWidth: 2,
                             pointRadius: 0,
-                            fill: true
+                            fill: true,
+                            tension: 0.1
                         },
                         {
                             label: '买入',
                             data: buyPoints,
                             type: 'scatter',
-                            backgroundColor: '#10b981',
-                            borderColor: '#10b981',
-                            pointRadius: 8,
+                            backgroundColor: '#34c759',
+                            borderColor: '#34c759',
+                            pointRadius: 10,
                             pointStyle: 'triangle',
-                            showLine: false
+                            showLine: false,
+                            pointHoverRadius: 12
                         },
                         {
                             label: '卖出',
                             data: sellPoints,
                             type: 'scatter',
-                            backgroundColor: '#ef4444',
-                            borderColor: '#ef4444',
-                            pointRadius: 8,
+                            backgroundColor: '#ff3b30',
+                            borderColor: '#ff3b30',
+                            pointRadius: 10,
                             pointStyle: 'triangle',
                             rotation: 180,
-                            showLine: false
+                            showLine: false,
+                            pointHoverRadius: 12
                         }
                     ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'nearest',
+                        intersect: false
+                    },
                     plugins: {
                         legend: {
                             display: true,
-                            position: 'top'
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    family: '-apple-system, BlinkMacSystemFont, "SF Pro Display"',
+                                    size: 13
+                                },
+                                usePointStyle: true,
+                                padding: 15
+                            }
                         },
                         tooltip: {
-                            mode: 'index',
-                            intersect: false
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            padding: 12,
+                            titleFont: {
+                                size: 14,
+                                family: '-apple-system, BlinkMacSystemFont, "SF Pro Display"'
+                            },
+                            bodyFont: {
+                                size: 13,
+                                family: '-apple-system, BlinkMacSystemFont, "SF Pro Display"'
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label || '';
+                                    const value = context.parsed.y;
+                                    if (context.dataset.type === 'scatter') {
+                                        const point = context.raw;
+                                        return `${label}: ¥${value.toFixed(2)} (${point.shares || 0}股)`;
+                                    }
+                                    return `${label}: ¥${value.toFixed(2)}`;
+                                }
+                            }
                         }
                     },
                     scales: {
                         x: {
                             display: true,
+                            grid: {
+                                display: false
+                            },
                             ticks: {
-                                maxTicksLimit: 10
+                                maxTicksLimit: 12,
+                                font: {
+                                    family: '-apple-system, BlinkMacSystemFont, "SF Pro Display"',
+                                    size: 11
+                                }
                             }
                         },
                         y: {
                             display: true,
-                            position: 'left'
+                            position: 'left',
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            ticks: {
+                                font: {
+                                    family: '-apple-system, BlinkMacSystemFont, "SF Pro Display"',
+                                    size: 11
+                                },
+                                callback: function(value) {
+                                    return '¥' + value.toFixed(2);
+                                }
+                            }
                         }
                     }
                 }
@@ -822,6 +1191,872 @@
                 }
             });
         }
+
+        // 自定义策略相关函数
+        let availableIndicators = [];
+        let ruleIdCounter = 0;
+
+        // 加载可用指标
+        async function loadAvailableIndicators() {
+            try {
+                const response = await fetch(`${API_BASE}/indicators`);
+                const data = await response.json();
+                availableIndicators = data.indicators;
+            } catch (error) {
+                console.error('加载指标失败:', error);
+            }
+        }
+
+        // 添加规则
+        function addRule(ruleType, conditionType) {
+            const ruleId = `rule_${ruleIdCounter++}`;
+            const container = document.getElementById(ruleType === 'buy' ? 'buyRules' : 'sellRules');
+            
+            const ruleCard = document.createElement('div');
+            ruleCard.className = `rule-card ${ruleType}-rule`;
+            ruleCard.id = ruleId;
+            
+            if (conditionType === 'condition') {
+                ruleCard.innerHTML = `
+                    <div class="rule-header">
+                        <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+                            <span class="rule-type-badge">
+                                <span>${ruleType === 'buy' ? '🟢' : '🔴'}</span>
+                                ${ruleType === 'buy' ? '买入条件' : '卖出条件'}
+                            </span>
+                            <input type="text" placeholder="给规则起个名字（可选）" class="rule-name" style="flex: 1; border: none; background: transparent; font-size: 15px; font-weight: 500;" />
+                        </div>
+                        <div class="rule-actions">
+                            <button class="rule-delete" onclick="deleteRule('${ruleId}')">🗑️ 删除</button>
+                        </div>
+                    </div>
+                    <div class="condition-row">
+                        <div style="color: #666; font-size: 13px; margin-bottom: 8px;">
+                            <strong>当满足以下条件时${ruleType === 'buy' ? '买入' : '卖出'}：</strong>
+                        </div>
+                        <div class="condition-flow">
+                            <div class="flow-box">
+                                <div style="font-size: 11px; color: #666; margin-bottom: 4px;">指标A</div>
+                                <select class="indicator-select" onchange="updateIndicatorParams(this, 'left')" style="width: 100%; border: none; background: transparent; font-weight: 600;">
+                                    <option value="">选择...</option>
+                                    ${availableIndicators.map(ind => `<option value="${ind.id}">${ind.name}</option>`).join('')}
+                                </select>
+                                <span class="indicator-params"></span>
+                            </div>
+                            <div class="flow-operator">
+                                <select class="operator-select" style="border: none; background: transparent; color: white; font-weight: 600;">
+                                    <option value=">">大于 ></option>
+                                    <option value=">=">≥</option>
+                                    <option value="<">小于 <</option>
+                                    <option value="<=">≤</option>
+                                    <option value="==">等于 =</option>
+                                </select>
+                            </div>
+                            <div class="flow-box">
+                                <div style="font-size: 11px; color: #666; margin-bottom: 4px;">对比</div>
+                                <select class="compare-select" onchange="updateCompareInput(this)" style="width: 100%; border: none; background: transparent; font-weight: 600; margin-bottom: 8px;">
+                                    <option value="indicator">指标B</option>
+                                    <option value="number">固定数值</option>
+                                </select>
+                                <span class="compare-input">
+                                    <select class="indicator-select" onchange="updateIndicatorParams(this, 'right')" style="width: 100%; border: none; background: transparent; font-weight: 600;">
+                                        <option value="">选择...</option>
+                                        ${availableIndicators.map(ind => `<option value="${ind.id}">${ind.name}</option>`).join('')}
+                                    </select>
+                                    <span class="indicator-params"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 12px; padding: 8px 12px; background: #f5f5f7; border-radius: 8px;">
+                        <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="logic_${ruleId}" value="AND" checked> 且 (必须全部满足)</label>
+                        <label style="cursor: pointer;"><input type="radio" name="logic_${ruleId}" value="OR"> 或 (满足任一即可)</label>
+                    </div>
+                `;
+            } else if (conditionType === 'cross') {
+                ruleCard.innerHTML = `
+                    <div class="rule-header">
+                        <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+                            <span class="rule-type-badge">
+                                <span>${ruleType === 'buy' ? '🟢' : '🔴'}</span>
+                                ${ruleType === 'buy' ? '买入信号' : '卖出信号'}
+                            </span>
+                            <input type="text" placeholder="给规则起个名字（可选）" class="rule-name" style="flex: 1; border: none; background: transparent; font-size: 15px; font-weight: 500;" />
+                        </div>
+                        <div class="rule-actions">
+                            <button class="rule-delete" onclick="deleteRule('${ruleId}')">🗑️ 删除</button>
+                        </div>
+                    </div>
+                    <div class="condition-row">
+                        <div style="color: #666; font-size: 13px; margin-bottom: 8px;">
+                            <strong>当发生以下交叉时${ruleType === 'buy' ? '买入' : '卖出'}：</strong>
+                        </div>
+                        <div class="condition-flow">
+                            <div class="flow-box">
+                                <div style="font-size: 11px; color: #666; margin-bottom: 4px;">快线</div>
+                                <select class="indicator-select" onchange="updateIndicatorParams(this, 'ind1')" style="width: 100%; border: none; background: transparent; font-weight: 600;">
+                                    <option value="">选择...</option>
+                                    ${availableIndicators.map(ind => `<option value="${ind.id}">${ind.name}</option>`).join('')}
+                                </select>
+                                <span class="indicator-params"></span>
+                            </div>
+                            <div class="flow-operator">
+                                <select class="cross-type-select" style="border: none; background: transparent; color: white; font-weight: 600;">
+                                    <option value="golden">金叉 ↗️ 上穿</option>
+                                    <option value="death">死叉 ↘️ 下穿</option>
+                                </select>
+                            </div>
+                            <div class="flow-box">
+                                <div style="font-size: 11px; color: #666; margin-bottom: 4px;">慢线</div>
+                                <select class="indicator-select" onchange="updateIndicatorParams(this, 'ind2')" style="width: 100%; border: none; background: transparent; font-weight: 600;">
+                                    <option value="">选择...</option>
+                                    ${availableIndicators.map(ind => `<option value="${ind.id}">${ind.name}</option>`).join('')}
+                                </select>
+                                <span class="indicator-params"></span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            container.appendChild(ruleCard);
+        }
+
+        // 删除规则
+        function deleteRule(ruleId) {
+            const rule = document.getElementById(ruleId);
+            if (rule) {
+                rule.remove();
+            }
+        }
+
+        // 更新指标参数
+        function updateIndicatorParams(selectElement, position) {
+            const indicatorId = selectElement.value;
+            const indicator = availableIndicators.find(ind => ind.id === indicatorId);
+            const paramsSpan = selectElement.parentElement.querySelector('.indicator-params');
+            
+            if (!indicator || !indicator.params || indicator.params.length === 0) {
+                paramsSpan.innerHTML = '';
+                return;
+            }
+            
+            let paramsHtml = '';
+            indicator.params.forEach(param => {
+                if (param.type === 'number') {
+                    paramsHtml += `
+                        <input type="number" 
+                               placeholder="${param.label}" 
+                               value="${param.default}" 
+                               min="${param.min || ''}" 
+                               max="${param.max || ''}"
+                               step="${param.step || 1}"
+                               data-param="${param.name}"
+                               style="width: 80px; padding: 6px; border: 1px solid #d1d1d6; border-radius: 6px; margin-left: 5px;">
+                    `;
+                } else if (param.type === 'select') {
+                    paramsHtml += `
+                        <select data-param="${param.name}" style="padding: 6px; border: 1px solid #d1d1d6; border-radius: 6px; margin-left: 5px;">
+                            ${param.options.map(opt => `<option value="${opt}" ${opt === param.default ? 'selected' : ''}>${opt}</option>`).join('')}
+                        </select>
+                    `;
+                }
+            });
+            
+            paramsSpan.innerHTML = paramsHtml;
+        }
+
+        // 更新比较输入
+        function updateCompareInput(selectElement) {
+            const compareType = selectElement.value;
+            const compareInputSpan = selectElement.parentElement.querySelector('.compare-input');
+            
+            if (compareType === 'number') {
+                compareInputSpan.innerHTML = '<input type="number" placeholder="输入数值" step="0.01" style="width: 100%; padding: 8px; border: 1px solid #d1d1d6; border-radius: 8px;">';
+            } else {
+                compareInputSpan.innerHTML = `
+                    <select class="indicator-select" onchange="updateIndicatorParams(this, 'right')">
+                        <option value="">选择指标...</option>
+                        ${availableIndicators.map(ind => `<option value="${ind.id}">${ind.name}</option>`).join('')}
+                    </select>
+                    <span class="indicator-params"></span>
+                `;
+            }
+        }
+
+        // 从规则卡片收集配置
+        function collectRuleConfig(ruleCard) {
+            const conditionRow = ruleCard.querySelector('.condition-row');
+            const crossTypeSelect = ruleCard.querySelector('.cross-type-select');
+            
+            if (crossTypeSelect) {
+                // 交叉规则
+                const indicators = conditionRow.querySelectorAll('.indicator-select');
+                const indicator1 = indicators[0].value;
+                const indicator2 = indicators[1].value;
+                const crossType = crossTypeSelect.value;
+                
+                const params1 = {};
+                const params2 = {};
+                
+                indicators[0].parentElement.querySelectorAll('[data-param]').forEach(input => {
+                    params1[input.dataset.param] = input.type === 'number' ? parseFloat(input.value) : input.value;
+                });
+                
+                indicators[1].parentElement.querySelectorAll('[data-param]').forEach(input => {
+                    params2[input.dataset.param] = input.type === 'number' ? parseFloat(input.value) : input.value;
+                });
+                
+                return {
+                    type: 'cross',
+                    indicator1: indicator1,
+                    params1: params1,
+                    indicator2: indicator2,
+                    params2: params2,
+                    cross_type: crossType
+                };
+            } else {
+                // 条件规则
+                const indicators = conditionRow.querySelectorAll('.indicator-select');
+                const operator = conditionRow.querySelector('.operator-select').value;
+                const compareSelect = conditionRow.querySelector('.compare-select');
+                const logic = ruleCard.querySelector('input[type="radio"]:checked')?.value || 'AND';
+                const ruleName = ruleCard.querySelector('.rule-name').value || '未命名规则';
+                
+                const leftIndicator = indicators[0].value;
+                const leftParams = {};
+                indicators[0].parentElement.querySelectorAll('[data-param]').forEach(input => {
+                    leftParams[input.dataset.param] = input.type === 'number' ? parseFloat(input.value) : input.value;
+                });
+                
+                let compareTo, compareParams = {};
+                if (compareSelect.value === 'number') {
+                    compareTo = parseFloat(conditionRow.querySelector('.compare-input input').value) || 0;
+                } else {
+                    compareTo = indicators[1].value;
+                    indicators[1].parentElement.querySelectorAll('[data-param]').forEach(input => {
+                        compareParams[input.dataset.param] = input.type === 'number' ? parseFloat(input.value) : input.value;
+                    });
+                }
+                
+                return {
+                    name: ruleName,
+                    conditions: [{
+                        indicator: leftIndicator,
+                        params: leftParams,
+                        operator: operator,
+                        compare_to: compareTo,
+                        compare_params: compareParams
+                    }],
+                    logic: logic
+                };
+            }
+        }
+
+        // 收集策略配置
+        function collectStrategyConfig() {
+            const strategyName = document.getElementById('customStrategyName').value || '我的自定义策略';
+            const investRatio = parseFloat(document.getElementById('investRatio').value) || 0.5;
+            
+            const buyRulesContainer = document.getElementById('buyRules');
+            const sellRulesContainer = document.getElementById('sellRules');
+            
+            const buyRules = Array.from(buyRulesContainer.children).map(collectRuleConfig);
+            const sellRules = Array.from(sellRulesContainer.children).map(collectRuleConfig);
+            
+            return {
+                name: strategyName,
+                buy_rules: buyRules,
+                sell_rules: sellRules,
+                params: {
+                    invest_ratio: investRatio
+                }
+            };
+        }
+
+        // 验证策略
+        async function validateCustomStrategy() {
+            try {
+                const config = collectStrategyConfig();
+                
+                if (config.buy_rules.length === 0 && config.sell_rules.length === 0) {
+                    alert('请至少添加一条买入或卖出规则');
+                    return;
+                }
+                
+                const response = await fetch(`${API_BASE}/strategy/validate`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(config)
+                });
+                
+                const result = await response.json();
+                
+                if (result.valid) {
+                    alert(`策略配置有效！\n策略名称：${result.strategy_name}\n买入规则数：${result.buy_rules_count}\n卖出规则数：${result.sell_rules_count}`);
+                } else {
+                    alert(`策略配置无效：${result.message}`);
+                }
+            } catch (error) {
+                alert(`验证失败：${error.message}`);
+            }
+        }
+
+        // 运行自定义策略回测
+        async function runCustomBacktest() {
+            try {
+                const config = collectStrategyConfig();
+                const symbol = document.getElementById('customSymbol').value;
+                const startDate = document.getElementById('customStartDate').value;
+                const endDate = document.getElementById('customEndDate').value;
+                const initialCapital = parseFloat(document.getElementById('customCapital').value);
+                
+                console.log('=== 自定义策略配置 ===');
+                console.log('策略配置:', JSON.stringify(config, null, 2));
+                console.log('股票代码:', symbol);
+                console.log('日期范围:', startDate, '-', endDate);
+                console.log('买入规则数:', config.buy_rules.length);
+                console.log('卖出规则数:', config.sell_rules.length);
+                
+                if (!symbol || !startDate || !endDate) {
+                    alert('请填写完整的回测配置');
+                    return;
+                }
+                
+                if (config.buy_rules.length === 0 && config.sell_rules.length === 0) {
+                    alert('请至少添加一条买入或卖出规则');
+                    return;
+                }
+                
+                const resultDiv = document.getElementById('customBacktestResult');
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = '<div class="loading">正在回测中，请稍候...</div>';
+                
+                const requestBody = {
+                    name: config.name,
+                    strategy_type: 'custom',
+                    params: config,
+                    initial_capital: initialCapital,
+                    commission_rate: 0.0003
+                };
+                
+                console.log('发送到后端的请求:', JSON.stringify(requestBody, null, 2));
+                
+                const response = await fetch(`${API_BASE}/backtest?symbol=${symbol}&start_date=${startDate}&end_date=${endDate}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestBody)
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('后端错误响应:', errorData);
+                    throw new Error(`回测失败: ${errorData.detail || JSON.stringify(errorData)}`);
+                }
+                
+                const result = await response.json();
+                console.log('后端返回结果:', result);
+                displayCustomBacktestResult(result);
+            } catch (error) {
+                console.error('回测错误:', error);
+                document.getElementById('customBacktestResult').innerHTML = `<div class="error">错误: ${error.message}</div>`;
+            }
+        }
+
+        // 显示自定义策略回测结果
+        function displayCustomBacktestResult(result) {
+            const resultDiv = document.getElementById('customBacktestResult');
+            
+            const metricsHtml = `
+                <div class="result">
+                    <h3>回测结果</h3>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <div class="metric-label">总收益率</div>
+                            <div class="metric-value ${result.total_return >= 0 ? 'positive' : 'negative'}">
+                                ${(result.total_return * 100).toFixed(2)}%
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">年化收益率</div>
+                            <div class="metric-value ${result.annual_return >= 0 ? 'positive' : 'negative'}">
+                                ${(result.annual_return * 100).toFixed(2)}%
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">最大回撤</div>
+                            <div class="metric-value negative">
+                                ${(result.max_drawdown * 100).toFixed(2)}%
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">夏普比率</div>
+                            <div class="metric-value">
+                                ${result.sharpe_ratio.toFixed(2)}
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">胜率</div>
+                            <div class="metric-value">
+                                ${(result.win_rate * 100).toFixed(2)}%
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">交易次数</div>
+                            <div class="metric-value">
+                                ${result.total_trades}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="metric-details">
+                        <p><strong>策略名称：</strong>${result.strategy_name}</p>
+                        <p><strong>回测期间：</strong>${result.start_date} 至 ${result.end_date}</p>
+                        <p><strong>初始资金：</strong>¥${result.initial_capital.toLocaleString()}</p>
+                        <p><strong>最终资金：</strong>¥${result.final_capital.toLocaleString()}</p>
+                    </div>
+                    
+                    <div class="charts-container">
+                        <div class="chart-wrapper">
+                            <h4>股价走势与交易点位</h4>
+                            <canvas id="customPriceChart"></canvas>
+                        </div>
+                        <div class="chart-wrapper">
+                            <h4>资金曲线</h4>
+                            <canvas id="customEquityChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            resultDiv.innerHTML = metricsHtml;
+            resultDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                drawCustomCharts(result);
+            }, 100);
+        }
+
+        // 绘制自定义策略图表
+        function drawCustomCharts(result) {
+            console.log('开始绘制自定义策略图表');
+            console.log('回测结果:', result);
+            
+            // 复用现有的绘图函数，但使用不同的canvas ID
+            const dates = result.price_data.map(d => d.trade_date.substring(0, 10));
+            const prices = result.price_data.map(d => d.close);
+            
+            console.log('价格数据点数:', dates.length);
+            console.log('交易记录数:', result.trades.length);
+            
+            const buyPoints = [];
+            const sellPoints = [];
+            
+            result.trades.forEach(trade => {
+                const tradeDate = trade.timestamp.substring(0, 10);
+                const point = {
+                    x: tradeDate,
+                    y: trade.price,
+                    shares: trade.shares
+                };
+                if (trade.action === 'buy') {
+                    buyPoints.push(point);
+                    console.log('买入点:', point);
+                } else if (trade.action === 'sell') {
+                    sellPoints.push(point);
+                    console.log('卖出点:', point);
+                }
+            });
+            
+            console.log('总买入点数:', buyPoints.length);
+            console.log('总卖出点数:', sellPoints.length);
+            
+            // 绘制价格图
+            const priceCanvas = document.getElementById('customPriceChart');
+            console.log('找到价格画布:', priceCanvas !== null);
+            
+            if (priceCanvas) {
+                const ctx = priceCanvas.getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: dates,
+                        datasets: [
+                            {
+                                label: '收盘价',
+                                data: prices,
+                                borderColor: '#007aff',
+                                backgroundColor: 'rgba(0, 122, 255, 0.05)',
+                                borderWidth: 2,
+                                pointRadius: 0,
+                                fill: true,
+                                tension: 0.1
+                            },
+                            {
+                                label: '买入',
+                                data: buyPoints,
+                                type: 'scatter',
+                                backgroundColor: '#34c759',
+                                borderColor: '#34c759',
+                                pointRadius: 10,
+                                pointStyle: 'triangle',
+                                showLine: false,
+                                pointHoverRadius: 12
+                            },
+                            {
+                                label: '卖出',
+                                data: sellPoints,
+                                type: 'scatter',
+                                backgroundColor: '#ff3b30',
+                                borderColor: '#ff3b30',
+                                pointRadius: 10,
+                                pointStyle: 'triangle',
+                                rotation: 180,
+                                showLine: false,
+                                pointHoverRadius: 12
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            mode: 'nearest',
+                            intersect: false
+                        },
+                        plugins: {
+                            legend: { 
+                                display: true,
+                                position: 'top'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const label = context.dataset.label || '';
+                                        const value = context.parsed.y;
+                                        if (context.dataset.type === 'scatter') {
+                                            const point = context.raw;
+                                            return `${label}: ¥${value.toFixed(2)} (${point.shares || 0}股)`;
+                                        }
+                                        return `${label}: ¥${value.toFixed(2)}`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                display: true,
+                                grid: {
+                                    display: false
+                                }
+                            },
+                            y: {
+                                display: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return '¥' + value.toFixed(2);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                console.log('价格图表创建成功:', chart);
+            }
+            
+            // 绘制资金曲线
+            const equityCanvas = document.getElementById('customEquityChart');
+            console.log('找到资金画布:', equityCanvas !== null);
+            console.log('交易数量:', result.trades.length);
+            
+            if (equityCanvas && result.trades.length > 0) {
+                const equityDates = [result.start_date];
+                const equityValues = [result.initial_capital];
+                
+                result.trades.forEach(trade => {
+                    equityDates.push(trade.timestamp.substring(0, 10));
+                    equityValues.push(trade.portfolio_value);
+                });
+                
+                console.log('资金曲线日期数:', equityDates.length);
+                console.log('资金曲线值:', equityValues.slice(0, 5));
+                
+                const returns = equityValues.map(val => ((val / result.initial_capital - 1) * 100));
+                
+                const ctx = equityCanvas.getContext('2d');
+                const equityChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: equityDates,
+                        datasets: [
+                            {
+                                label: '资金',
+                                data: equityValues,
+                                borderColor: '#007aff',
+                                backgroundColor: 'rgba(0, 122, 255, 0.1)',
+                                borderWidth: 2,
+                                pointRadius: 3,
+                                fill: true,
+                                yAxisID: 'y'
+                            },
+                            {
+                                label: '收益率',
+                                data: returns,
+                                borderColor: '#34c759',
+                                backgroundColor: 'rgba(52, 199, 89, 0.1)',
+                                borderWidth: 2,
+                                pointRadius: 3,
+                                fill: true,
+                                yAxisID: 'y1'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: true }
+                        },
+                        scales: {
+                            y: {
+                                position: 'left',
+                                title: { display: true, text: '资金 (¥)' }
+                            },
+                            y1: {
+                                position: 'right',
+                                title: { display: true, text: '收益率 (%)' },
+                                grid: { drawOnChartArea: false }
+                            }
+                        }
+                    }
+                });
+                console.log('资金图表创建成功:', equityChart);
+            } else {
+                console.warn('无法绘制资金曲线 - 画布存在:', equityCanvas !== null, '交易数量:', result.trades.length);
+            }
+        }
+
+        // 保存策略
+        function saveStrategy() {
+            const config = collectStrategyConfig();
+            const json = JSON.stringify(config, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${config.name}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // 应用策略模板
+        function applyTemplate(templateName) {
+            // 清空现有规则
+            document.getElementById('buyRules').innerHTML = '';
+            document.getElementById('sellRules').innerHTML = '';
+            
+            // 等待指标加载完成
+            if (availableIndicators.length === 0) {
+                alert('正在加载指标数据，请稍候再试...');
+                return;
+            }
+            
+            let strategyName = '';
+            
+            switch(templateName) {
+                case 'ma_cross':
+                    strategyName = '双均线策略（MA5/MA20）';
+                    // 买入：MA5金叉MA20
+                    addRule('buy', 'cross');
+                    setTimeout(() => {
+                        const buyRule = document.querySelector('#buyRules .rule-card');
+                        const indicators = buyRule.querySelectorAll('.indicator-select');
+                        indicators[0].value = 'MA';
+                        updateIndicatorParams(indicators[0], 'ind1');
+                        buyRule.querySelectorAll('[data-param="period"]')[0].value = 5;
+                        
+                        const crossType = buyRule.querySelector('.cross-type-select');
+                        crossType.value = 'golden';
+                        
+                        indicators[1].value = 'MA';
+                        updateIndicatorParams(indicators[1], 'ind2');
+                        buyRule.querySelectorAll('[data-param="period"]')[1].value = 20;
+                    }, 100);
+                    
+                    // 卖出：MA5死叉MA20
+                    addRule('sell', 'cross');
+                    setTimeout(() => {
+                        const sellRule = document.querySelector('#sellRules .rule-card');
+                        const indicators = sellRule.querySelectorAll('.indicator-select');
+                        indicators[0].value = 'MA';
+                        updateIndicatorParams(indicators[0], 'ind1');
+                        sellRule.querySelectorAll('[data-param="period"]')[0].value = 5;
+                        
+                        const crossType = sellRule.querySelector('.cross-type-select');
+                        crossType.value = 'death';
+                        
+                        indicators[1].value = 'MA';
+                        updateIndicatorParams(indicators[1], 'ind2');
+                        sellRule.querySelectorAll('[data-param="period"]')[1].value = 20;
+                    }, 100);
+                    break;
+                    
+                case 'rsi':
+                    strategyName = 'RSI超买超卖策略';
+                    // 买入：RSI < 30
+                    addRule('buy', 'condition');
+                    setTimeout(() => {
+                        const buyRule = document.querySelector('#buyRules .rule-card');
+                        const indicators = buyRule.querySelectorAll('.indicator-select');
+                        indicators[0].value = 'RSI';
+                        updateIndicatorParams(indicators[0], 'left');
+                        
+                        const operator = buyRule.querySelector('.operator-select');
+                        operator.value = '<';
+                        
+                        const compareSelect = buyRule.querySelector('.compare-select');
+                        compareSelect.value = 'number';
+                        updateCompareInput(compareSelect);
+                        buyRule.querySelector('.compare-input input').value = 30;
+                    }, 100);
+                    
+                    // 卖出：RSI > 70
+                    addRule('sell', 'condition');
+                    setTimeout(() => {
+                        const sellRule = document.querySelector('#sellRules .rule-card');
+                        const indicators = sellRule.querySelectorAll('.indicator-select');
+                        indicators[0].value = 'RSI';
+                        updateIndicatorParams(indicators[0], 'left');
+                        
+                        const operator = sellRule.querySelector('.operator-select');
+                        operator.value = '>';
+                        
+                        const compareSelect = sellRule.querySelector('.compare-select');
+                        compareSelect.value = 'number';
+                        updateCompareInput(compareSelect);
+                        sellRule.querySelector('.compare-input input').value = 70;
+                    }, 100);
+                    break;
+                    
+                case 'macd':
+                    strategyName = 'MACD金叉死叉策略';
+                    // 买入：MACD金叉信号线
+                    addRule('buy', 'cross');
+                    setTimeout(() => {
+                        const buyRule = document.querySelector('#buyRules .rule-card');
+                        const indicators = buyRule.querySelectorAll('.indicator-select');
+                        indicators[0].value = 'MACD';
+                        updateIndicatorParams(indicators[0], 'ind1');
+                        buyRule.querySelectorAll('[data-param="line"]')[0].value = 'macd';
+                        
+                        const crossType = buyRule.querySelector('.cross-type-select');
+                        crossType.value = 'golden';
+                        
+                        indicators[1].value = 'MACD';
+                        updateIndicatorParams(indicators[1], 'ind2');
+                        buyRule.querySelectorAll('[data-param="line"]')[1].value = 'signal';
+                    }, 100);
+                    
+                    // 卖出：MACD死叉信号线
+                    addRule('sell', 'cross');
+                    setTimeout(() => {
+                        const sellRule = document.querySelector('#sellRules .rule-card');
+                        const indicators = sellRule.querySelectorAll('.indicator-select');
+                        indicators[0].value = 'MACD';
+                        updateIndicatorParams(indicators[0], 'ind1');
+                        sellRule.querySelectorAll('[data-param="line"]')[0].value = 'macd';
+                        
+                        const crossType = sellRule.querySelector('.cross-type-select');
+                        crossType.value = 'death';
+                        
+                        indicators[1].value = 'MACD';
+                        updateIndicatorParams(indicators[1], 'ind2');
+                        sellRule.querySelectorAll('[data-param="line"]')[1].value = 'signal';
+                    }, 100);
+                    break;
+                    
+                case 'combined':
+                    strategyName = '多指标组合策略';
+                    // 买入：MA5>MA20 且 RSI<50
+                    addRule('buy', 'condition');
+                    setTimeout(() => {
+                        const buyRule = document.querySelector('#buyRules .rule-card');
+                        const indicators = buyRule.querySelectorAll('.indicator-select');
+                        indicators[0].value = 'MA';
+                        updateIndicatorParams(indicators[0], 'left');
+                        buyRule.querySelectorAll('[data-param="period"]')[0].value = 5;
+                        
+                        const operator = buyRule.querySelector('.operator-select');
+                        operator.value = '>';
+                        
+                        const compareSelect = buyRule.querySelector('.compare-select');
+                        compareSelect.value = 'indicator';
+                        
+                        indicators[1].value = 'MA';
+                        updateIndicatorParams(indicators[1], 'right');
+                        buyRule.querySelectorAll('[data-param="period"]')[1].value = 20;
+                    }, 100);
+                    
+                    // 卖出：MA5<MA20
+                    addRule('sell', 'condition');
+                    setTimeout(() => {
+                        const sellRule = document.querySelector('#sellRules .rule-card');
+                        const indicators = sellRule.querySelectorAll('.indicator-select');
+                        indicators[0].value = 'MA';
+                        updateIndicatorParams(indicators[0], 'left');
+                        sellRule.querySelectorAll('[data-param="period"]')[0].value = 5;
+                        
+                        const operator = sellRule.querySelector('.operator-select');
+                        operator.value = '<';
+                        
+                        const compareSelect = sellRule.querySelector('.compare-select');
+                        compareSelect.value = 'indicator';
+                        
+                        indicators[1].value = 'MA';
+                        updateIndicatorParams(indicators[1], 'right');
+                        sellRule.querySelectorAll('[data-param="period"]')[1].value = 20;
+                    }, 100);
+                    break;
+            }
+            
+            // 更新策略名称
+            document.getElementById('customStrategyName').value = strategyName;
+            
+            // 设置推荐的回测参数
+            document.getElementById('customSymbol').value = '000001';
+            document.getElementById('customStartDate').value = '20230101';
+            document.getElementById('customEndDate').value = '20231231';
+            
+            alert(`已应用「${strategyName}」模板！\n\n建议配置：\n股票代码：000001\n时间范围：2023年全年\n\n您可以直接点击"开始回测"或修改参数后再回测。`);
+        }
+
+        // 加载策略
+        function loadStrategy() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const config = JSON.parse(event.target.result);
+                        // TODO: 根据配置重建界面
+                        document.getElementById('customStrategyName').value = config.name || '';
+                        document.getElementById('investRatio').value = config.params?.invest_ratio || 0.5;
+                        alert('策略配置已加载，请手动重建规则（自动重建功能开发中）');
+                    } catch (error) {
+                        alert('加载失败：文件格式错误');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        // 页面加载时初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            loadAvailableIndicators();
+        });
 
         // AI建议表单提交
         document.getElementById('aiForm').addEventListener('submit', async (e) => {

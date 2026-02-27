@@ -18,6 +18,7 @@ from loguru import logger
 
 from backend.data.data_source import DataManager
 from backend.strategy.base_strategy import MAStrategy, RSIStrategy
+from backend.strategy.custom_strategy import CustomStrategy
 from backend.backtest.backtest_engine import BacktestEngine
 from backend.ai.deepseek_advisor import DeepSeekAdvisor
 from backend.models.data_models import StockInfo
@@ -168,6 +169,9 @@ async def run_backtest(config: StrategyConfig, symbol: str, start_date: str, end
             strategy = MAStrategy(config.params)
         elif config.strategy_type == "rsi":
             strategy = RSIStrategy(config.params)
+        elif config.strategy_type == "custom":
+            # 自定义策略
+            strategy = CustomStrategy(config.params)
         else:
             raise HTTPException(status_code=400, detail=f"不支持的策略类型: {config.strategy_type}")
         
@@ -194,6 +198,115 @@ async def run_backtest(config: StrategyConfig, symbol: str, start_date: str, end
     except Exception as e:
         logger.error(f"回测失败: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/strategy/validate")
+async def validate_strategy(config: dict):
+    """验证自定义策略配置"""
+    try:
+        # 尝试创建策略实例来验证配置
+        strategy = CustomStrategy(config)
+        
+        return {
+            "valid": True,
+            "message": "策略配置有效",
+            "strategy_name": strategy.name,
+            "buy_rules_count": len(strategy.buy_rules),
+            "sell_rules_count": len(strategy.sell_rules)
+        }
+    except Exception as e:
+        return {
+            "valid": False,
+            "message": f"策略配置无效: {str(e)}"
+        }
+
+
+@app.get("/api/indicators")
+async def get_available_indicators():
+    """获取可用的技术指标列表"""
+    return {
+        "indicators": [
+            {
+                "id": "MA",
+                "name": "简单移动平均线",
+                "params": [
+                    {"name": "period", "label": "周期", "type": "number", "default": 5, "min": 1, "max": 200}
+                ]
+            },
+            {
+                "id": "EMA",
+                "name": "指数移动平均线",
+                "params": [
+                    {"name": "period", "label": "周期", "type": "number", "default": 5, "min": 1, "max": 200}
+                ]
+            },
+            {
+                "id": "RSI",
+                "name": "相对强弱指标",
+                "params": [
+                    {"name": "period", "label": "周期", "type": "number", "default": 14, "min": 2, "max": 100}
+                ]
+            },
+            {
+                "id": "MACD",
+                "name": "MACD指标",
+                "params": [
+                    {"name": "fast", "label": "快线周期", "type": "number", "default": 12, "min": 2, "max": 100},
+                    {"name": "slow", "label": "慢线周期", "type": "number", "default": 26, "min": 2, "max": 100},
+                    {"name": "signal", "label": "信号线周期", "type": "number", "default": 9, "min": 2, "max": 100},
+                    {"name": "line", "label": "线类型", "type": "select", "options": ["macd", "signal", "histogram"], "default": "macd"}
+                ]
+            },
+            {
+                "id": "BOLL",
+                "name": "布林带",
+                "params": [
+                    {"name": "period", "label": "周期", "type": "number", "default": 20, "min": 2, "max": 100},
+                    {"name": "std_dev", "label": "标准差倍数", "type": "number", "default": 2.0, "min": 0.5, "max": 5.0, "step": 0.1},
+                    {"name": "band", "label": "轨道", "type": "select", "options": ["upper", "middle", "lower"], "default": "middle"}
+                ]
+            },
+            {
+                "id": "KDJ",
+                "name": "KDJ指标",
+                "params": [
+                    {"name": "n", "label": "N周期", "type": "number", "default": 9, "min": 2, "max": 100},
+                    {"name": "m1", "label": "M1周期", "type": "number", "default": 3, "min": 1, "max": 50},
+                    {"name": "m2", "label": "M2周期", "type": "number", "default": 3, "min": 1, "max": 50},
+                    {"name": "line", "label": "线类型", "type": "select", "options": ["k", "d", "j"], "default": "k"}
+                ]
+            },
+            {
+                "id": "PRICE",
+                "name": "收盘价",
+                "params": []
+            },
+            {
+                "id": "VOLUME",
+                "name": "成交量",
+                "params": []
+            },
+            {
+                "id": "VOLUME_MA",
+                "name": "成交量均线",
+                "params": [
+                    {"name": "period", "label": "周期", "type": "number", "default": 5, "min": 1, "max": 200}
+                ]
+            }
+        ],
+        "operators": [
+            {"id": ">", "label": "大于"},
+            {"id": ">=", "label": "大于等于"},
+            {"id": "<", "label": "小于"},
+            {"id": "<=", "label": "小于等于"},
+            {"id": "==", "label": "等于"},
+            {"id": "!=", "label": "不等于"}
+        ],
+        "cross_types": [
+            {"id": "golden", "label": "金叉（上穿）"},
+            {"id": "death", "label": "死叉（下穿）"}
+        ]
+    }
 
 
 @app.post("/api/ai/analyze", response_model=AIAnalysisResponse)

@@ -1,34 +1,40 @@
-# A股量化交易系统
+<div align="center">
 
-一个功能完整的A股量化交易系统，支持自定义交易策略、历史回测、可视化图表和AI投资建议。
+# 📈 A股量化交易系统
 
-## ✨ 主要功能
+### *智能策略 · 可视化回测 · AI投资建议*
 
-- **🔄 多数据源支持**: 优先使用新浪财经（免费稳定），支持Tushare和AKShare作为备选
-- **📊 可视化回测**: 实时展示股价走势、交易点位和资金曲线，直观呈现策略表现
-- **🎯 策略引擎**: 提供灵活的策略框架，内置双均线和RSI策略，支持自定义策略
-- **⚡ 高性能回测**: 基于历史数据快速测试策略，生成详细的回测报告和性能指标
-- **🤖 AI投资建议**: 集成DeepSeek AI，提供智能投资分析和专业建议
-- **💻 Web界面**: 现代化的可视化界面，支持交互式图表展示
+[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)](https://fastapi.tiangolo.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## 🖼️ 功能展示
+**一个功能完整的A股量化交易系统，让量化投资变得简单**
 
-### 回测可视化
-- **股价走势图**: 展示完整的价格走势，用三角形标记买入点（绿色向上）和卖出点（红色向下）
-- **资金曲线图**: 双Y轴展示账户资金变化和收益率百分比
-- **性能指标**: 实时显示总收益率、年化收益率、最大回撤、夏普比率等关键指标
+[快速开始](#-5分钟快速部署) · [功能介绍](#-核心功能) · [使用文档](#-使用指南)
 
-### AI分析
-- 基于DeepSeek AI的深度技术分析
-- 趋势判断和支撑阻力位识别
-- 短期和中期投资建议
-- 风险提示和操作建议
+</div>
 
-## 🚀 快速开始
+---
 
-### 1. 环境准备
+## 💡 核心亮点
 
-**Python环境要求**: Python 3.9+
+🎯 **零编程自定义策略** - 可视化拖拽构建交易策略，4种预设模板一键应用  
+📊 **实时可视化回测** - 股价走势、交易点位、资金曲线一目了然  
+🤖 **AI智能分析** - 集成DeepSeek AI，提供专业投资建议  
+⚡ **稳定数据源** - 新浪财经免费数据，响应快速无需注册  
+
+---
+
+## 🚀 5分钟快速部署
+
+### 步骤1：克隆项目
+
+```bash
+git clone https://github.com/yourusername/trading-system.git
+cd trading-system
+```
+
+### 步骤2：创建Python环境
 
 ```bash
 # 使用conda（推荐）
@@ -38,152 +44,258 @@ conda activate trade
 # 或使用venv
 python -m venv venv
 source venv/bin/activate  # macOS/Linux
-venv\Scripts\activate     # Windows
+# venv\Scripts\activate   # Windows
 ```
 
-### 2. 安装依赖
+### 步骤3：安装依赖
 
 ```bash
-# 使用清华镜像加速（推荐）
 pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
-
-# 或使用默认源
-pip install -r requirements.txt
 ```
 
-### 3. 配置API密钥 🔐
-
-**重要: 为保护API密钥安全，本项目采用独立密钥文件管理**
+### 步骤4：配置API密钥（可选）
 
 ```bash
-# 步骤1: 复制模板文件
+# 复制配置模板
 cp secrets.env.template secrets.env
 
-# 步骤2: 编辑 secrets.env，填入真实密钥
-nano secrets.env  # 或使用任何文本编辑器
+# 编辑secrets.env文件，填入你的DeepSeek API密钥
+# 如果只想体验回测功能，可以跳过此步骤
 ```
 
-在 `secrets.env` 中配置：
+**获取DeepSeek API密钥**：访问 [platform.deepseek.com](https://platform.deepseek.com) 注册并创建API密钥
 
-```env
-# Tushare数据源Token（可选）
-# 获取方式：https://tushare.pro/register
-TUSHARE_TOKEN=你的tushare_token
-
-# DeepSeek AI API密钥（必需）
-# 获取方式：https://platform.deepseek.com
-DEEPSEEK_API_KEY=你的deepseek_api_key
-```
-
-**安全说明**:
-- ✅ `secrets.env` 已在 `.gitignore` 中，**不会**上传到GitHub
-- ✅ `secrets.env.template` 是模板，**可以**安全分享
-- ⚠️ **切勿**将真实密钥提交到版本控制系统
-
-### 4. 启动服务
+### 步骤5：启动服务
 
 ```bash
-# 启动服务
-cd /path/to/trade
 python -m uvicorn backend.api.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-**访问地址**:
-- Web界面: http://localhost:8000
-- API文档: http://localhost:8000/docs
+### 步骤6：打开浏览器
 
-### 5. 使用Web界面
+在浏览器中访问：**http://localhost:8000**
 
-1. 在浏览器打开 http://localhost:8000
-2. 选择功能标签：
-   - **策略回测**: 输入股票代码、日期范围、策略类型，查看可视化回测结果
-   - **AI投资建议**: 输入股票代码，获取AI分析报告
-   - **设置**: 配置DeepSeek API密钥
+🎉 **完成！** 现在您可以开始使用了
 
-## 🎯 内置策略
+---
 
-### 1. 双均线策略 (MAStrategy)
-- **原理**: 快速均线上穿慢速均线时买入（金叉），下穿时卖出（死叉）
-- **适用**: 趋势明显的市场，适合中长期持有
+## 🎯 快速上手
 
-### 2. RSI策略 (RSIStrategy)
-- **原理**: 基于相对强弱指标的超买超卖策略
-- **适用**: 震荡市场，适合短线交易
+### 第一次使用？试试这个！
 
-## 📊 技术指标库
+1. 打开浏览器访问 http://localhost:8000
+2. 点击"**自定义策略**"标签页
+3. 点击"**双均线策略**"模板卡片（带"推荐"标签）
+4. 直接点击"**开始回测**"按钮
+5. 查看可视化结果：交易次数、收益率、买卖点图表
 
-系统内置多种技术指标，可直接调用：
+**预期结果**：
+- 📊 10笔交易
+- 📉 -9.57% 收益率（2023年平安银行下跌趋势）
+- 🎨 图表上显示5个绿色买入点和5个红色卖出点
 
+---
+
+## 🌟 核心功能
+
+### 1️⃣ 可视化策略构建器
+
+**零编程创建交易策略**，像搭积木一样简单！
+
+#### 📋 预设模板（一键应用）
+- **双均线策略** - MA5/MA20金叉死叉（推荐新手）
+- **RSI超买超卖** - RSI指标动量策略
+- **MACD金叉死叉** - MACD信号线交叉策略
+- **多指标组合** - 均线+RSI组合策略
+
+#### 🎨 可视化规则编辑器
+- **流程图风格**：`[指标A]` → `[>]` → `[指标B]`
+- **交叉规则**：金叉/死叉信号
+- **条件规则**：自定义指标比较
+- **实时预览**：配置即时生效
+
+#### 支持的技术指标
 | 指标 | 说明 | 用途 |
 |------|------|------|
-| **SMA** | 简单移动平均 | 趋势跟踪 |
-| **EMA** | 指数移动平均 | 更敏感的趋势跟踪 |
-| **RSI** | 相对强弱指标 | 超买超卖判断 |
-| **MACD** | 平滑异同移动平均线 | 趋势和动量 |
-| **BOLL** | 布林带 | 波动性和支撑阻力 |
-| **ATR** | 平均真实波幅 | 波动性测量 |
-| **KDJ** | 随机指标 | 超买超卖和转折点 |
+| MA/EMA | 移动平均线 | 趋势跟踪 |
+| RSI | 相对强弱指标 | 超买超卖 |
+| MACD | 平滑异同移动平均 | 趋势动量 |
+| BOLL | 布林带 | 波动性分析 |
+| KDJ | 随机指标 | 转折点判断 |
+| VOLUME | 成交量 | 量价分析 |
 
-## 🔌 API文档
+---
 
-启动服务后访问: http://localhost:8000/docs
+### 2️⃣ 高性能回测引擎
+
+**完整的历史数据回测，专业级性能指标**
+
+#### 📊 可视化图表
+- **股价走势图**：完整价格走势 + 买卖点标记
+  - 🟢 绿色三角形：买入点
+  - 🔴 红色倒三角：卖出点
+- **资金曲线图**：账户价值变化 + 收益率曲线
+- **悬停提示**：查看具体交易价格和数量
+
+#### 📈 性能指标
+- **总收益率** - 策略整体表现
+- **年化收益率** - 折算为年化数据
+- **最大回撤** - 最大亏损幅度
+- **夏普比率** - 风险调整后收益
+- **胜率** - 盈利交易占比
+- **交易次数** - 总交易笔数
+
+#### ⚙️ 回测设置
+- 自定义初始资金
+- 设置手续费率
+- 选择回测时间范围
+- 支持任意A股代码
+
+---
+
+### 3️⃣ AI投资建议
+
+**DeepSeek AI驱动的智能分析**
+
+- 📊 **技术分析**：趋势判断、支撑阻力位识别
+- 🎯 **投资建议**：短期和中期操作建议
+- ⚠️ **风险提示**：潜在风险识别和提醒
+- 📝 **Markdown格式**：清晰易读的分析报告
+
+**推荐股票（已缓存，响应快速）**：
+- 000001（平安银行）
+- 600000（浦发银行）
+- 000002（万科A）
+- 600519（贵州茅台）
+- 000858（五粮液）
+
+---
+
+### 4️⃣ 数据源管理
+
+#### 🌐 新浪财经（默认推荐）
+- ✅ **完全免费**，无需注册
+- ✅ **快速稳定**，响应时间 0.1-0.3秒
+- ✅ **数据准确**，支持前复权价格
+- ✅ 最多获取 1500 个交易日数据
+
+#### 🔄 备选数据源
+- **Tushare**：需要Token，数据全面但有权限限制
+- **AKShare**：免费但网络不稳定
+
+系统会自动在数据源间切换，确保服务可用性。
+
+---
+
+## 📖 使用指南
+
+### 策略回测
+
+1. 点击"**策略回测**"标签
+2. 选择预设策略（双均线/RSI）
+3. 输入股票代码（如：000001）
+4. 设置日期范围（如：20230101-20231231）
+5. 设置初始资金和手续费率
+6. 点击"**开始回测**"
+
+### 自定义策略
+
+#### 方法1：使用模板（推荐）
+1. 点击"**自定义策略**"标签
+2. 选择一个策略模板卡片
+3. 系统自动配置规则和参数
+4. 点击"**开始回测**"
+
+#### 方法2：手动创建
+1. 点击"**+ 添加交叉规则**"或"**+ 添加条件规则**"
+2. 配置买入规则：
+   - 选择指标（如：MA）
+   - 设置参数（如：周期5）
+   - 选择比较方式（如：金叉）
+   - 选择对比指标（如：MA，周期20）
+3. 配置卖出规则（同上）
+4. 设置回测参数并开始回测
+
+#### 方法3：保存/加载策略
+- 点击"**保存策略**"导出为JSON文件
+- 点击"**加载策略**"导入已保存的配置
+
+### AI投资建议
+
+1. 点击"**AI投资建议**"标签
+2. 输入股票代码（推荐使用已缓存的代码）
+3. 点击"**获取AI建议**"
+4. 等待AI分析完成（约5-10秒）
+5. 查看Markdown格式的分析报告
+
+---
+
+## 🛠️ API文档
+
+启动服务后访问：**http://localhost:8000/docs**
 
 ### 主要接口
 
-- `GET /api/stocks/{symbol}/data` - 获取股票历史数据
-- `POST /api/backtest` - 运行策略回测
-- `POST /api/ai/analyze` - 获取AI投资建议
-- `POST /api/ai/set-key` - 设置DeepSeek API密钥
+| 接口 | 方法 | 说明 |
+|------|------|------|
+| `/api/health` | GET | 健康检查 |
+| `/api/indicators` | GET | 获取可用指标列表 |
+| `/api/backtest` | POST | 运行策略回测 |
+| `/api/strategy/validate` | POST | 验证策略配置 |
+| `/api/ai/analyze` | POST | AI投资分析 |
+| `/api/stocks/{symbol}/data` | GET | 获取股票数据 |
 
-详细的API参数说明请查看自动生成的文档。
+详细参数说明请查看Swagger文档。
 
-## 📈 数据源说明
+---
 
-### 新浪财经（默认，推荐）
-- ✅ **完全免费**，无需注册
-- ✅ **稳定快速**，响应时间0.1-0.3秒
-- ✅ 支持实时行情和历史数据（最多1500个交易日）
-- ✅ 数据准确，包含前复权价格
+## 🔧 故障排除
 
-### Tushare（备选）
-- ⚠️ 需要注册并获取Token
-- ⚠️ 免费账户有权限限制（需要积分）
-- ✅ 数据全面，包含财务数据
-- 获取方式: https://tushare.pro/register
+### ❌ 数据获取失败
 
-### AKShare（备选）
-- ✅ 完全免费，无需注册
-- ⚠️ 网络稳定性一般，可能出现连接超时
-- 备注: 因网络问题，已降为备选
+**问题**：显示"数据获取失败"或"连接超时"
 
-## 🛠️ 故障排除
-
-### 数据获取失败
-**问题**: `数据解析失败` 或 `连接超时`
-
-**解决**:
+**解决方案**：
 1. 检查网络连接
-2. 缩短日期范围（单次请求不超过2年）
-3. 尝试切换数据源
+2. 缩短日期范围（建议单次不超过3年）
+3. 更换股票代码重试
+4. 查看终端日志获取详细错误信息
 
-### AI分析失败
-**问题**: `DeepSeek API未配置`
+### ❌ 回测无交易记录
 
-**解决**:
-1. 确认 `secrets.env` 文件中配置了 `DEEPSEEK_API_KEY`
-2. 检查API密钥是否有效
-3. 确认有足够的API调用额度
+**问题**：回测完成但显示"交易次数: 0"
 
-### 回测图表不显示
-**解决**:
-1. 确保浏览器已加载 Chart.js（通过CDN）
-2. 检查浏览器控制台是否有JavaScript错误
-3. 刷新页面（Ctrl+F5 或 Cmd+Shift+R）
+**解决方案**：
+1. 使用预设模板重新配置策略
+2. 检查买入/卖出规则是否都已配置
+3. 确认规则配置合理（如：MA5与MA20对比）
+4. 尝试更换时间范围或股票代码
 
-### 导入模块失败
-**问题**: `ModuleNotFoundError`
+### ❌ 图表不显示
 
-**解决**:
+**问题**：回测结果没有图表
+
+**解决方案**：
+1. 刷新页面（Ctrl+F5 / Cmd+Shift+R）
+2. 检查浏览器是否阻止了CDN加载
+3. 打开浏览器控制台查看JavaScript错误
+4. 尝试更换浏览器（推荐Chrome/Safari）
+
+### ❌ AI分析失败
+
+**问题**：显示"AI顾问未初始化"
+
+**解决方案**：
+1. 确认已创建 `secrets.env` 文件
+2. 检查 `DEEPSEEK_API_KEY` 是否正确配置
+3. 验证API密钥是否有效（访问DeepSeek平台）
+4. 确认账户有足够的API额度
+
+### ❌ 模块导入错误
+
+**问题**：`ModuleNotFoundError: No module named 'xxx'`
+
+**解决方案**：
 ```bash
 # 确认虚拟环境已激活
 conda activate trade  # 或 source venv/bin/activate
@@ -192,82 +304,135 @@ conda activate trade  # 或 source venv/bin/activate
 pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
-## ⚠️ 注意事项
-
-1. **数据源选择**: 默认使用新浪财经，稳定快速。如需使用Tushare，需配置token且注意权限限制
-
-2. **API限制**: DeepSeek API有调用频率限制，建议合理使用
-
-3. **回测注意**: 
-   - 回测结果基于历史数据，不代表未来收益
-   - 手续费设置对结果影响较大，建议设置真实的佣金率
-   - 回测不考虑滑点、涨跌停等实际交易限制
-
-4. **风险提示**: 
-   - ⚠️ 本系统仅供学习研究使用
-   - ⚠️ 量化交易有风险，实盘操作需谨慎
-   - ⚠️ 请勿盲目相信AI建议，需结合自身判断
+---
 
 ## 📂 项目结构
 
 ```
 trade/
-├── backend/              # 后端代码
-│   ├── api/             # FastAPI接口
-│   ├── data/            # 数据获取模块
-│   ├── strategy/        # 策略引擎
-│   ├── backtest/        # 回测引擎
-│   ├── ai/              # AI投资建议
-│   └── models/          # 数据模型
-├── frontend/            # 前端界面
-│   └── public/          
-│       └── index.html   # Web界面
-├── config/              # 配置文件
-│   ├── secrets.env      # API密钥（不上传）
+├── backend/                    # 后端服务
+│   ├── api/                   # FastAPI接口
+│   │   └── main.py           # 主应用入口
+│   ├── data/                  # 数据模块
+│   │   └── data_source.py    # 多数据源管理
+│   ├── strategy/              # 策略引擎
+│   │   ├── base_strategy.py  # 策略基类和内置策略
+│   │   └── custom_strategy.py # 自定义策略引擎
+│   ├── backtest/              # 回测引擎
+│   │   └── backtest_engine.py
+│   ├── ai/                    # AI模块
+│   │   └── deepseek_advisor.py
+│   └── models/                # 数据模型
+├── frontend/                   # 前端界面
+│   └── public/
+│       └── index.html         # Web单页应用
+├── config/                     # 配置文件
+│   ├── config.py             # 配置加载
+│   ├── secrets.env           # API密钥（不上传）
 │   └── secrets.env.template  # 密钥模板
-├── examples/            # 使用示例
-├── requirements.txt     # 项目依赖
-└── README.md           # 项目文档
+├── examples/                   # 使用示例
+│   ├── example_ma_strategy.py
+│   └── example_rsi_strategy.py
+├── requirements.txt           # Python依赖
+├── .gitignore                # Git忽略文件
+└── README.md                 # 项目文档
 ```
 
-## 🚀 开发计划
+---
 
-### 已完成 ✅
-- [x] 多数据源支持
-- [x] 可视化回测图表
-- [x] 双均线和RSI策略
+## ⚠️ 重要提示
+
+### 🔐 安全性
+- ✅ `secrets.env` 已在 `.gitignore` 中，不会上传到GitHub
+- ⚠️ 切勿将API密钥提交到版本控制系统
+- ⚠️ 不要在公共场合分享 `secrets.env` 文件
+
+### 📊 回测说明
+- ⚠️ 回测结果基于**历史数据**，不代表未来表现
+- ⚠️ 实际交易会受到滑点、涨跌停等限制
+- ⚠️ 手续费设置对结果影响较大，建议使用真实佣金率
+
+### 🤖 AI建议
+- ⚠️ AI分析仅供**参考**，不构成投资建议
+- ⚠️ 请结合自身判断和风险承受能力
+- ⚠️ 投资有风险，入市需谨慎
+
+### 📜 免责声明
+- ⚠️ 本系统**仅供学习研究使用**
+- ⚠️ 作者不对使用本系统产生的任何损失负责
+- ⚠️ 实盘交易请谨慎决策
+
+---
+
+## 🚀 未来计划
+
+### ✅ 已完成
+- [x] 多数据源支持（新浪/Tushare/AKShare）
+- [x] 可视化回测引擎
+- [x] 内置双均线和RSI策略
 - [x] DeepSeek AI集成
 - [x] Web界面和API文档
+- [x] **可视化策略构建器**
+- [x] **预设策略模板系统**
+- [x] **流程图风格的规则编辑器**
 
-### 计划中 📋
-- [ ] 更多内置策略（MACD、KDJ、网格交易等）
+### 📋 开发中
+- [ ] 实时预览效果（配置规则时显示历史信号数量）
 - [ ] 策略参数优化（遗传算法/网格搜索）
 - [ ] 多股票组合回测
 - [ ] 实时行情监控和提醒
 - [ ] 策略回测报告导出（PDF/Excel）
+- [ ] 更多预设策略模板
+
+---
 
 ## 📄 许可证
 
-MIT License
+MIT License - 详见 [LICENSE](LICENSE) 文件
 
-## 🤝 贡献
+---
+
+## 🤝 贡献指南
 
 欢迎提交Issue和Pull Request！
 
-**贡献步骤**:
+**贡献步骤**：
 1. Fork本仓库
 2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
 3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
 4. 推送到分支 (`git push origin feature/AmazingFeature`)
 5. 提交Pull Request
 
-## 🙏 致谢
-
-- 数据源: 新浪财经、Tushare、AKShare
-- AI支持: DeepSeek
-- 图表库: Chart.js
-- Web框架: FastAPI
+**代码规范**：
+- 遵循PEP 8代码风格
+- 添加必要的注释和文档字符串
+- 确保所有测试通过
 
 ---
 
-**⭐ 如果这个项目对你有帮助，请给个Star支持一下！**
+## 🙏 致谢
+
+### 数据来源
+- [新浪财经](https://finance.sina.com.cn/) - 免费稳定的股票数据
+- [Tushare](https://tushare.pro/) - 专业金融数据接口
+- [AKShare](https://akshare.akfamily.xyz/) - 开源财经数据接口
+
+### 技术支持
+- [DeepSeek](https://platform.deepseek.com/) - AI智能分析
+- [FastAPI](https://fastapi.tiangolo.com/) - 高性能Web框架
+- [Chart.js](https://www.chartjs.org/) - 图表可视化库
+- [Pandas](https://pandas.pydata.org/) - 数据分析工具
+
+---
+
+<div align="center">
+
+### ⭐ 如果这个项目对你有帮助，请给个Star支持一下！
+
+**让量化投资变得简单** 🚀
+
+[报告问题](https://github.com/yourusername/trading-system/issues) · 
+[功能建议](https://github.com/yourusername/trading-system/issues) · 
+[查看文档](https://github.com/yourusername/trading-system/wiki)
+
+</div>
